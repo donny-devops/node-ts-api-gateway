@@ -1,5 +1,5 @@
 # ── Stage 1: Builder ──────────────────────────────────────────────────────────
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 WORKDIR /build
 
@@ -10,7 +10,7 @@ COPY src/ ./src/
 RUN npm run build
 
 # ── Stage 2: Production runtime ───────────────────────────────────────────────
-FROM node:20-alpine AS runtime
+FROM node:25-alpine AS runtime
 
 RUN apk add --no-cache curl
 
