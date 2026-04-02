@@ -1,0 +1,160 @@
+{
+  "title": "API Gateway — Security & Traffic Overview",
+  "uid": "gateway-overview",
+  "schemaVersion": 39,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "tags": ["gateway", "security"],
+  "panels": [
+
+    {
+      "id": 1,
+      "title": "Request Rate (req/s)",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "sum(rate(gateway_http_requests_total[1m]))",
+        "legendFormat": "req/s"
+      }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "area" },
+      "fieldConfig": { "defaults": { "unit": "reqps", "thresholds": { "mode": "absolute", "steps": [
+        { "color": "green", "value": null }, { "color": "yellow", "value": 300 }, { "color": "red", "value": 500 }
+      ]}}}
+    },
+
+    {
+      "id": 2,
+      "title": "Error Rate (5xx %)",
+      "type": "stat",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "100 * sum(rate(gateway_http_requests_total{status_code=~\"5..\"}[5m])) / sum(rate(gateway_http_requests_total[5m]))",
+        "legendFormat": "error %"
+      }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background" },
+      "fieldConfig": { "defaults": { "unit": "percent", "thresholds": { "mode": "absolute", "steps": [
+        { "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 5 }
+      ]}}}
+    },
+
+    {
+      "id": 3,
+      "title": "P99 Latency",
+      "type": "stat",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "histogram_quantile(0.99, rate(gateway_http_request_duration_seconds_bucket[5m])) * 1000",
+        "legendFormat": "p99"
+      }],
+      "fieldConfig": { "defaults": { "unit": "ms", "thresholds": { "mode": "absolute", "steps": [
+        { "color": "green", "value": null }, { "color": "yellow", "value": 500 }, { "color": "red", "value": 2000 }
+      ]}}}
+    },
+
+    {
+      "id": 4,
+      "title": "DDoS Blocks (rate)",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "sum(rate(gateway_ddos_blocked_total[5m]))",
+        "legendFormat": "blocked/s"
+      }],
+      "fieldConfig": { "defaults": { "unit": "reqps", "thresholds": { "mode": "absolute", "steps": [
+        { "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 10 }
+      ]}}}
+    },
+
+    {
+      "id": 5,
+      "title": "Sanitisation Events (rate)",
+      "type": "stat",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "sum(rate(gateway_sanitise_mutations_total[5m]))",
+        "legendFormat": "mutations/s"
+      }],
+      "fieldConfig": { "defaults": { "unit": "reqps", "thresholds": { "mode": "absolute", "steps": [
+        { "color": "green", "value": null }, { "color": "yellow", "value": 1 }, { "color": "red", "value": 5 }
+      ]}}}
+    },
+
+    {
+      "id": 6,
+      "title": "Active Connections",
+      "type": "stat",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "gateway_active_connections", "legendFormat": "active" }],
+      "fieldConfig": { "defaults": { "unit": "short" }}
+    },
+
+    {
+      "id": 7,
+      "title": "Request Rate by Route",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "sum by(route) (rate(gateway_http_requests_total[1m]))",
+        "legendFormat": "{{ route }}"
+      }],
+      "fieldConfig": { "defaults": { "unit": "reqps" }}
+    },
+
+    {
+      "id": 8,
+      "title": "Latency Percentiles",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(gateway_http_request_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p50"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(gateway_http_request_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p95"
+        },
+        {
+          "expr": "histogram_quantile(0.99, rate(gateway_http_request_duration_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p99"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" }}
+    },
+
+    {
+      "id": 9,
+      "title": "Security Events — Blocked Requests by Reason",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{
+        "expr": "sum by(reason) (rate(gateway_ddos_blocked_total[5m]))",
+        "legendFormat": "{{ reason }}"
+      }],
+      "fieldConfig": { "defaults": { "unit": "reqps" }}
+    },
+
+    {
+      "id": 10,
+      "title": "Recent Transactions (ELK)",
+      "type": "logs",
+      "gridPos": { "x": 12, "y": 12, "w": 12, "h": 8 },
+      "datasource": { "type": "elasticsearch", "uid": "elasticsearch" },
+      "targets": [{
+        "query": "tags:blocked OR tags:sanitised OR tags:error",
+        "metrics": [{ "type": "logs", "id": "1" }],
+        "timeField": "timestamp"
+      }]
+    }
+
+  ]
+}

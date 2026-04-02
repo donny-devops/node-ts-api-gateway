@@ -1,0 +1,67 @@
+groups:
+  - name: gateway.security
+    interval: 30s
+    rules:
+
+      - alert: HighDDoSBlockRate
+        expr: rate(gateway_ddos_blocked_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High DDoS block rate on API gateway"
+          description: "More than 10 requests/second are being blocked by DDoS protection (current: {{ $value | printf \"%.2f\" }}/s)"
+
+      - alert: ElevatedSanitisationRate
+        expr: rate(gateway_sanitise_mutations_total[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Elevated input sanitisation rate"
+          description: "The gateway is sanitising more than 5 fields/second — possible injection attack in progress."
+
+      - alert: HighAuthFailureRate
+        expr: rate(gateway_auth_failures_total[5m]) > 20
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High JWT authentication failure rate"
+          description: "More than 20 auth failures/minute — possible credential brute-force."
+
+  - name: gateway.reliability
+    rules:
+
+      - alert: HighErrorRate
+        expr: |
+          rate(gateway_http_requests_total{status_code=~"5.."}[5m])
+          /
+          rate(gateway_http_requests_total[5m]) > 0.05
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Gateway 5xx error rate above 5%"
+          description: "Current error rate: {{ $value | printf \"%.1f\" }}%"
+
+      - alert: HighP99Latency
+        expr: |
+          histogram_quantile(0.99,
+            rate(gateway_http_request_duration_seconds_bucket[5m])
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P99 request latency above 2s"
+          description: "P99 latency is {{ $value | printf \"%.2f\" }}s"
+
+      - alert: RateLimitHitsSpike
+        expr: rate(gateway_rate_limit_hits_total[1m]) > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate-limit hit rate"
+          description: "More than 50 rate-limited requests per minute."
