@@ -1,4 +1,4 @@
-# node-ts-api-gateway
+# Node TS API Gateway
 
 A TypeScript-based Node.js API gateway designed to centralize routing, middleware, authentication, and service-to-service communication for distributed applications.
 
