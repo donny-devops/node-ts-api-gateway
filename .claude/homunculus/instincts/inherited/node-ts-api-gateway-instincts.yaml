@@ -1,0 +1,433 @@
+# Instincts generated from https://github.com/donny-devops/node-ts-api-gateway
+# Generated: 2026-05-17T17:51:31.344Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: node-ts-api-gateway-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: fix, build, test
+
+## Evidence
+
+- 11 commits analyzed
+- Detected conventional commit pattern
+- Examples: fix(package): restore Fastify 4 runtime compatibility and tooling, build(lint): add flat ESLint config for TypeScript
+
+---
+id: node-ts-api-gateway-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Commit Length
+
+## Action
+
+Write moderate-length commit messages (~53 characters)
+
+## Evidence
+
+- Average commit message length: 53 chars
+- Based on 11 commits
+
+---
+id: node-ts-api-gateway-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: node-ts-api-gateway-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: node-ts-api-gateway-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: node-ts-api-gateway-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: node-ts-api-gateway-workflow-fix-feature-or-bug-in-module
+trigger: "when doing fix feature or bug in module"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Workflow Fix Feature Or Bug In Module
+
+## Action
+
+Follow the fix-feature-or-bug-in-module workflow:
+1. Identify the module or feature with the issue.
+2. Edit the main implementation file in src/ (e.g., src/middleware/auth.ts, src/plugins/requestContext.ts, src/server.ts, src/middleware/ddos.ts).
+3. Commit with a 'fix' message describing the change.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: src/middleware/auth.ts, src/plugins/requestContext.ts, src/server.ts
+
+---
+id: node-ts-api-gateway-workflow-update-build-or-config
+trigger: "when doing update build or config"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Workflow Update Build Or Config
+
+## Action
+
+Follow the update-build-or-config workflow:
+1. Edit or add the relevant configuration file (e.g., eslint.config.js, vitest.config.ts, .github/workflows/ci.yml, tsconfig.json).
+2. Commit with a 'build' or 'fix' message describing the config change.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: eslint.config.js, vitest.config.ts, .github/workflows/ci.yml
+
+---
+id: node-ts-api-gateway-instinct-naming-files
+trigger: "When creating or renaming a file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Naming Files
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in src/middleware/auth.ts
+- Pattern in src/plugins/requestContext.ts
+
+---
+id: node-ts-api-gateway-instinct-naming-functions
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Naming Functions
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in src/middleware/auth.ts
+- Pattern in src/plugins/requestContext.ts
+
+---
+id: node-ts-api-gateway-instinct-naming-classes
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Naming Classes
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in src/plugins/requestContext.ts
+
+---
+id: node-ts-api-gateway-instinct-naming-constants
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Naming Constants
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in src/plugins/requestContext.ts
+
+---
+id: node-ts-api-gateway-instinct-import-style
+trigger: "When importing modules within the project"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in src/middleware/auth.ts
+- Pattern in src/server.ts
+
+---
+id: node-ts-api-gateway-instinct-export-style
+trigger: "When exporting modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Export Style
+
+## Action
+
+Use default exports
+
+## Evidence
+
+- Pattern in src/middleware/auth.ts
+- Pattern in src/plugins/requestContext.ts
+
+---
+id: node-ts-api-gateway-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Test Location
+
+## Action
+
+Place test files in the 'tests' directory, separate from 'src'
+
+## Evidence
+
+- Pattern in folder structure
+- tests directory exists
+
+---
+id: node-ts-api-gateway-instinct-test-naming
+trigger: "When naming test files"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Test Naming
+
+## Action
+
+Use camelCase for test file names
+
+## Evidence
+
+- Pattern in tests directory file names
+
+---
+id: node-ts-api-gateway-instinct-test-coverage
+trigger: "When writing tests for a new or updated feature"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Test Coverage
+
+## Action
+
+Add or update tests to cover public paths and edge cases
+
+## Evidence
+
+- test(auth): add public path coverage
+
+---
+id: node-ts-api-gateway-instinct-git-commit-format
+trigger: "When making a commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Git Commit Format
+
+## Action
+
+Use conventional commit format: <type>(<scope>): <message>
+
+## Evidence
+
+- fix(package): restore Fastify 4 runtime compatibility and tooling
+- build(lint): add flat ESLint config for TypeScript
+
+---
+id: node-ts-api-gateway-instinct-git-commit-types
+trigger: "When describing a commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Git Commit Types
+
+## Action
+
+Use 'fix', 'build', or 'test' as commit type prefixes
+
+## Evidence
+
+- fix(package): restore Fastify 4 runtime compatibility and tooling
+- build(lint): add flat ESLint config for TypeScript
+- test(auth): add public path coverage
+
+---
+id: node-ts-api-gateway-instinct-fix-module-workflow
+trigger: "When fixing a bug or improving logic in a specific module (e.g., auth, plugins, middleware, server)"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Fix Module Workflow
+
+## Action
+
+Edit the main implementation file in src/ and commit with a 'fix' message describing the change
+
+## Evidence
+
+- Workflow: fix-feature-or-bug-in-module
+- fix(auth): harden public path matching and JWT failures
+- fix(server): import crypto and make Redis connection optional
+
+---
+id: node-ts-api-gateway-instinct-update-config-workflow
+trigger: "When updating project tooling, linting, testing, or CI/CD configuration"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Update Config Workflow
+
+## Action
+
+Edit or add the relevant configuration file and commit with a 'build' or 'fix' message describing the config change
+
+## Evidence
+
+- Workflow: update-build-or-config
+- build(lint): add flat ESLint config for TypeScript
+- fix(tsconfig): compile config and tests under NodeNext
+
