@@ -99,4 +99,4 @@ const observabilityPlugin: FastifyPluginAsync = async (fastify) => {
   });
 };
 
-export default fp(observabilityPlugin, { name: 'observability', fastify: '4.x' });
+export default fp(observabilityPlugin, { name: 'observability', fastify: '5.x' });

@@ -28,7 +28,7 @@ const WINDOW_KEY = (ip: string) => `${config.redis.keyPrefix}rps:${ip}`;
 
 const localCounters = new Map<string, { count: number; windowStart: number }>();
 
-function localIncrement(ip: string, windowMs: number): number {
+export function localIncrement(ip: string, windowMs: number): number {
   const now   = Date.now();
   const entry = localCounters.get(ip);
   if (!entry || now - entry.windowStart > windowMs) {
@@ -86,7 +86,7 @@ const SUSPICIOUS_UA = [
   /python-requests\/[01]\./i, /go-http-client\/1\.0/i,
 ];
 
-function isSuspiciousRequest(request: FastifyRequest): string | null {
+export function isSuspiciousRequest(request: Pick<FastifyRequest, 'headers'>): string | null {
   const ua = request.headers['user-agent'] ?? '';
 
   if (!ua) return 'missing User-Agent';
@@ -170,4 +170,4 @@ const ddosPlugin: FastifyPluginAsync = async (fastify) => {
   });
 };
 
-export default fp(ddosPlugin, { name: 'ddos', fastify: '4.x' });
+export default fp(ddosPlugin, { name: 'ddos', fastify: '5.x' });

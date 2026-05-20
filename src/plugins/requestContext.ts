@@ -20,7 +20,7 @@ const requestContextPlugin: FastifyPluginAsync = async (fastify) => {
 
     // Resolve real client IP — respects X-Forwarded-For when trustProxy is on.
     request.clientIp = (
-      request.headers['x-real-ip']
+      (request.headers['x-real-ip'] as string | undefined)
       ?? (request.headers['x-forwarded-for'] as string | undefined)?.split(',')[0]?.trim()
       ?? request.socket.remoteAddress
       ?? 'unknown'
@@ -31,4 +31,4 @@ const requestContextPlugin: FastifyPluginAsync = async (fastify) => {
   });
 };
 
-export default fp(requestContextPlugin, { name: 'request-context', fastify: '4.x' });
+export default fp(requestContextPlugin, { name: 'request-context', fastify: '5.x' });

@@ -135,4 +135,4 @@ const sanitisePlugin: FastifyPluginAsync = async (fastify) => {
   });
 };
 
-export default fp(sanitisePlugin, { name: 'sanitise', fastify: '4.x' });
+export default fp(sanitisePlugin, { name: 'sanitise', fastify: '5.x' });
