@@ -22,6 +22,7 @@ const BAN_KEY = (ip: string) => `${config.redis.keyPrefix}ban:${ip}`;
 const WINDOW_KEY = (ip: string) => `${config.redis.keyPrefix}rps:${ip}`;
 
 const localCounters = new Map<string, { count: number; windowStart: number }>();
+const localBans = new Map<string, number>();
 
 function localIncrement(ip: string, windowMs: number): number {
   const now = Date.now();
@@ -35,7 +36,15 @@ function localIncrement(ip: string, windowMs: number): number {
 }
 
 async function isBanned(redis: Redis | null, ip: string): Promise<boolean> {
-  if (!redis) return false;
+  if (!redis) {
+    const bannedUntil = localBans.get(ip);
+    if (!bannedUntil) return false;
+    if (Date.now() >= bannedUntil) {
+      localBans.delete(ip);
+      return false;
+    }
+    return true;
+  }
   const val = await redis.get(BAN_KEY(ip));
   return val !== null;
 }
@@ -67,7 +76,10 @@ async function incrementAndCheck(redis: Redis | null, ip: string): Promise<boole
 }
 
 async function banIp(redis: Redis | null, ip: string, durationMs: number): Promise<void> {
-  if (!redis) return;
+  if (!redis) {
+    localBans.set(ip, Date.now() + durationMs);
+    return;
+  }
   await redis.set(BAN_KEY(ip), '1', 'PX', durationMs);
 }
 

@@ -14,6 +14,9 @@ type Upstream = z.infer<typeof upstreamSchema>[number];
 function parseInteger(name: string, fallback: number): number {
   const raw = process.env[name];
   if (!raw) return fallback;
+  if (!/^-?\d+$/.test(raw.trim())) {
+    throw new Error(`${name} must be an integer`);
+  }
   const parsed = Number.parseInt(raw, 10);
   if (!Number.isFinite(parsed)) {
     throw new Error(`${name} must be an integer`);
@@ -99,7 +102,7 @@ export const config = {
     maxStringLength: parseInteger('MAX_STRING_LEN', 10_000),
     allowedContentTypes: parseCsv(
       'ALLOWED_CT',
-      'application/json,application/x-www-form-urlencoded,multipart/form-data',
+      'application/json,application/x-www-form-urlencoded',
     ),
   },
 

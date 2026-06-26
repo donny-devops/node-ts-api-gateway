@@ -54,6 +54,7 @@ if (config.redis.host) {
 
   await redis.connect().catch((err) => {
     console.warn('[redis] failed to connect on start; continuing without Redis:', err.message);
+    redis?.disconnect();
     redis = null;
   });
 }

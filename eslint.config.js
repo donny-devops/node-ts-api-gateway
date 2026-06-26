@@ -7,6 +7,11 @@ export default tseslint.config(
   {
     files: ['src/**/*.ts', 'config/**/*.ts', 'tests/**/*.ts'],
     languageOptions: {
+      globals: {
+        process: 'readonly',
+        Buffer: 'readonly',
+        console: 'readonly',
+      },
       parserOptions: {
         project: './tsconfig.json',
       },
