@@ -66,7 +66,7 @@ export const config = {
   upstreams: parseUpstreams(),
 
   jwt: {
-    secret: process.env.JWT_SECRET ?? 'change-me-in-production',
+    secret: process.env.JWT_SECRET ?? (() => { throw new Error('JWT_SECRET environment variable is required for security') })(),
     issuer: process.env.JWT_ISSUER ?? 'api-gateway',
     expiresIn: process.env.JWT_EXPIRES ?? '1h',
     publicPaths: parseCsv('JWT_PUBLIC_PATHS', '/health,/metrics,/ready'),
