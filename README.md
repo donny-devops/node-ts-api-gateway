@@ -1,5 +1,11 @@
 # Node TS API Gateway
 
+[![CI](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/ci.yml)
+[![Security Hygiene](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/security-hygiene.yml/badge.svg)](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/security-hygiene.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+
 A TypeScript-based Node.js API gateway designed to centralize routing, middleware, authentication, and service-to-service communication for distributed applications.
 
 ## Overview
@@ -211,3 +217,21 @@ You can deploy this gateway to platforms such as:
 ## License
 
 Choose the license that fits your project, such as MIT, Apache-2.0, or a private internal license.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Client -->|HTTPS| GW[API Gateway]
+    GW --> Auth[JWT Auth]
+    Auth --> RL[Rate Limiter]
+    RL --> Val[Zod Validation]
+    Val --> Router[Router / Proxy]
+    Router --> SvcA[Service A]
+    Router --> SvcB[Service B]
+    Router --> SvcC[Service C]
+    RL -.-> Redis[(Redis)]
+```
+
+*Requests flow through authentication, Redis-backed rate limiting, schema
+validation, and routing before reaching downstream services.*
