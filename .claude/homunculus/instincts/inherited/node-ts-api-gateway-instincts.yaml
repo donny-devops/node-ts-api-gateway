@@ -1,0 +1,300 @@
+# Instincts generated from https://github.com/donny-devops/node-ts-api-gateway
+# Generated: 2026-07-07T17:10:48.349Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: node-ts-api-gateway-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: docs
+
+## Evidence
+
+- 1 commits analyzed
+- Detected conventional commit pattern
+- Examples: docs: add CONTRIBUTING.md, SUPPORT.md, and CHANGELOG.md for A+ standards
+
+---
+id: node-ts-api-gateway-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Commit Length
+
+## Action
+
+Write moderate-length commit messages (~72 characters)
+
+## Evidence
+
+- Average commit message length: 72 chars
+- Based on 1 commits
+
+---
+id: node-ts-api-gateway-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: node-ts-api-gateway-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: node-ts-api-gateway-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: node-ts-api-gateway-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: node-ts-api-gateway-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct File Naming
+
+## Action
+
+Name the file using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.files: PascalCase
+
+---
+id: node-ts-api-gateway-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: node-ts-api-gateway-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: node-ts-api-gateway-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: node-ts-api-gateway-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in importStyle: relative
+
+---
+id: node-ts-api-gateway-instinct-export-style
+trigger: "When exporting code from a module"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: node-ts-api-gateway-instinct-git-commit-format
+trigger: "When writing a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Git Commit Format
+
+## Action
+
+Use conventional commit format with type prefix (e.g., 'docs: ...')
+
+## Evidence
+
+- Pattern in commits.type: conventional
+- Pattern in commits.prefixes: ["docs"]
+- Seen in commit example: 'docs: add CONTRIBUTING.md, SUPPORT.md, and CHANGELOG.md for A+ standards'
+
+---
+id: node-ts-api-gateway-instinct-git-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Git Commit Length
+
+## Action
+
+Keep the commit message concise, around 72 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength: 72
+
+---
+id: node-ts-api-gateway-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: donny-devops/node-ts-api-gateway
+---
+
+# Node Ts Api Gateway Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source files
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation: separate
+
