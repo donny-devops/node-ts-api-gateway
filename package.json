@@ -29,7 +29,7 @@
     "@opentelemetry/sdk-node": "^0.52.1",
     "@opentelemetry/auto-instrumentations-node": "^0.48.0",
     "@opentelemetry/exporter-prometheus": "^0.52.1",
-    "@opentelemetry/exporter-otlp-grpc": "^0.52.1",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.52.1",
     "prom-client": "^15.1.3",
     "ioredis": "^5.4.1",
     "dotenv": "^16.4.5",
