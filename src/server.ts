@@ -141,7 +141,7 @@ await app.register(rateLimit, {
 });
 
 // 6. JWT
-await app.register(jwt, {
+await app.register(jwt as never, {
   secret:  config.jwt.secret,
   sign:    { issuer: config.jwt.issuer, expiresIn: config.jwt.expiresIn },
   verify:  { issuer: config.jwt.issuer },
