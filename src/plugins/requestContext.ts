@@ -19,12 +19,14 @@ const requestContextPlugin: FastifyPluginAsync = async (fastify) => {
     request.upstream        = null;
 
     // Resolve real client IP — respects X-Forwarded-For when trustProxy is on.
-    request.clientIp = (
-      request.headers['x-real-ip']
-      ?? (request.headers['x-forwarded-for'] as string | undefined)?.split(',')[0]?.trim()
-      ?? request.socket.remoteAddress
-      ?? 'unknown'
-    );
+    const realIp = request.headers['x-real-ip'];
+    const forwarded = request.headers['x-forwarded-for'];
+    const realIpValue = Array.isArray(realIp) ? realIp[0] : realIp;
+    const forwardedValue = Array.isArray(forwarded)
+      ? forwarded[0]
+      : forwarded?.split(',')[0]?.trim();
+    request.clientIp =
+      realIpValue ?? forwardedValue ?? request.socket.remoteAddress ?? 'unknown';
 
     // Attach transactionId to every pino log line from this request.
     request.log = request.log.child({ transactionId: request.transactionId });

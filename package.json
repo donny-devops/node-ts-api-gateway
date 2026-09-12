@@ -2,18 +2,19 @@
   "name": "node-ts-api-gateway",
   "version": "1.0.0",
   "description": "Security & compliance API gateway with input sanitisation, DDoS protection, and centralised observability (Grafana/ELK)",
-  "main": "dist/server.js",
+  "type": "module",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "lint": "eslint src --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
-    "fastify": "^5.8.4",
+    "fastify": "^4.29.1",
     "@fastify/helmet": "^11.1.1",
     "@fastify/rate-limit": "^9.1.0",
     "@fastify/http-proxy": "^9.5.0",
