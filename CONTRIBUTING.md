@@ -1,83 +1,67 @@
 # Contributing
 
-Thank you for considering contributing to this project! This document outlines the process and guidelines.
+Docs and code in this repo should describe the gateway that actually
+boots from `src/server.ts`, not a generic Node template.
 
-## Quick Start
-
-1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/YOUR-USERNAME/node-ts-api-gateway.git`
-3. **Create a branch**: `git checkout -b feature/your-feature-name`
-4. **Make your changes** and commit with clear messages
-5. **Push** to your fork: `git push origin feature/your-feature-name`
-6. **Open a Pull Request** with a clear description
-
-## Development Setup
+## Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/donny-devops/node-ts-api-gateway.git
 cd node-ts-api-gateway
-
-# Install dependencies (see README for specifics)
-# Example for Python projects:
-# pip install -e ".[dev]"
-
-# Run tests
-# See README.md for project-specific test commands
+cp .env.example .env
+npm ci
+npm test
+npm run typecheck
+npm run build
 ```
 
-## Coding Standards
+CI (`.github/workflows/ci.yml`) is Node **22.x**, `npm ci`, `npm run build`,
+`npm test`. A committed `package-lock.json` is required.
 
-- Follow the existing code style and conventions
-- Write clear, descriptive commit messages
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting
+## Constraints that commonly break PRs
 
-## Pull Request Guidelines
+- **Fastify plugin major must match.** Local plugins still pass
+  `{ fastify: '4.x' }`. Dependabot [#31](https://github.com/donny-devops/node-ts-api-gateway/pull/31)
+  moved `fastify` to `^5.12.1` and some `@fastify/*` packages to 5-line
+  majors. [#29](https://github.com/donny-devops/node-ts-api-gateway/pull/29)
+  had pinned Fastify 4 because 5 would not load those plugins. Do not
+  merge further Fastify majors without either updating the local plugins
+  or pinning Fastify back to 4.x.
+- **ESM.** `"type": "module"` and TypeScript `module: NodeNext`. Use
+  `.js` specifiers in imports (see existing files).
+- **Config compiles with src.** `tsconfig.json` `rootDir` is `.` and
+  `include` is `src` + `config`. Keep `config/gateway.ts` in that set.
+- **Tests are Vitest**, not Jest. Current coverage is
+  `test/sanitise.test.ts` (pure functions, no listening server).
+  `NODE_ENV=test` prevents `app.listen()`.
+- **Do not document unused knobs as live.** `OTEL_*` is config-only.
+  `RATE_LIMIT_AUTH_*` / `RATE_LIMIT_PER_ROUTE` are parsed and unused.
+  `gateway_auth_failures_total` / `gateway_rate_limit_hits_total` are
+  registered and never incremented.
 
-### Before Submitting
+## Workflow
 
-- [ ] Tests pass locally
-- [ ] Code follows project style guidelines
-- [ ] Documentation updated (if applicable)
-- [ ] Commit messages are clear and descriptive
-- [ ] Branch is up to date with `main`
+1. Branch from `main`: `git checkout -b docs/your-change` (or `fix/` / `feat/`).
+2. Match existing TypeScript style and plugin-registration order in
+   `src/server.ts` if you add middleware — order is load-bearing.
+3. Add Vitest coverage for new sanitise/auth/ddos behavior.
+4. Update README when you change public paths, env vars, or upstream
+   routing.
+5. Open a pull request. Default review owner is `@donny-devops`
+   (`CODEOWNERS`).
 
-### PR Description Should Include
+### PR description
 
-- **What** changed and **why**
-- **How** to test the changes
-- **Related issues** (if any) - use `Fixes #123` or `Closes #456`
-- **Breaking changes** (if any)
+- What changed and why
+- How to test (`npm ci && npm test && npm run build`)
+- Related issues (`Fixes #123`)
+- Breaking changes (Fastify major, public path list, env var names)
 
-## Code Review Process
+## Reporting issues
 
-1. A maintainer will review your PR within 3-5 business days
-2. Address any requested changes
-3. Once approved, a maintainer will merge your PR
+Include Node version, `npm ci` vs `npm install`, whether Redis was
+running, request method/path, status code, and logs with secrets
+removed. Security reports go through [SECURITY.md](SECURITY.md) — do
+not open a public issue for a gateway bypass.
 
-## Reporting Issues
-
-- Use the issue templates when available
-- Provide clear steps to reproduce
-- Include relevant logs, screenshots, or error messages
-- Specify your environment (OS, version, dependencies)
-
-## Code of Conduct
-
-This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to uphold this code.
-
-## Questions?
-
-- Open an issue with the `question` label
-- Check existing issues and pull requests first
-- See [SUPPORT.md](SUPPORT.md) for additional help resources
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same license as the project (see [LICENSE](LICENSE)).
-
----
-
-**Thank you for helping make this project better!** 🚀
+Questions and non-security help: [SUPPORT.md](SUPPORT.md).
