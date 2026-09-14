@@ -14,6 +14,8 @@
  *  10. health routes     — /health + /ready
  */
 
+import crypto from 'node:crypto';
+
 import Fastify from 'fastify';
 import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
@@ -65,7 +67,7 @@ export const app = Fastify({
     serializers: {
       req:  (req)  => ({ method: req.method, url: req.url, id: req.id }),
       res:  (res)  => ({ statusCode: res.statusCode }),
-      err:  (err)  => ({ type: err.constructor.name, message: err.message, stack: err.stack }),
+      err:  (err)  => ({ type: err.constructor.name, message: err.message, stack: err.stack ?? '' }),
     },
   },
   trustProxy:         config.server.trustProxy,
@@ -139,7 +141,7 @@ await app.register(rateLimit, {
 });
 
 // 6. JWT
-await app.register(jwt, {
+await app.register(jwt as never, {
   secret:  config.jwt.secret,
   sign:    { issuer: config.jwt.issuer, expiresIn: config.jwt.expiresIn },
   verify:  { issuer: config.jwt.issuer },
