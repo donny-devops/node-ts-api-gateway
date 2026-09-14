@@ -126,7 +126,7 @@ and `gateway_rate_limit_hits_total` are registered but not incremented.
 ## Public HTTP surface
 
 | Method | Path | Auth | Response |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | `GET` | `/health` | public | `{ status: "ok", uptime }` — process liveness |
 | `GET` | `/ready` | public | 200 `{ status: "ready", checks.redis }` or **503** `degraded` if a Redis client exists and `PING` fails. If Redis never connected, readiness still returns 200. |
 | `GET` | `/metrics` | public | Prometheus text (`prom-client` registry) |
