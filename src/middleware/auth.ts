@@ -1,4 +1,15 @@
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
+import { config } from '../../config/gateway.js';
+
+function isPublicPath(url: string): boolean {
+  const path = url.split('?')[0] || '/';
+  return config.jwt.publicPaths.some((publicPath) => {
+    if (publicPath.endsWith('*')) {
+      return path.startsWith(publicPath.slice(0, -1));
+    }
+    return path === publicPath;
+  });
+}
 
 const authPlugin: FastifyPluginAsync = async (fastify) => {
   // @fastify/jwt is registered in server.ts with the secret.
