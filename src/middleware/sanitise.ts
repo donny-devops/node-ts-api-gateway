@@ -31,6 +31,18 @@ const SQL_PATTERNS = [
 
 const PATH_TRAVERSAL_RE = /(\.\.[/\\]|%2e%2e[%2f%5c]|\.\.%[0-9a-f]{2})/gi;
 
+function stripPathTraversalSequences(input: string): string {
+  let previous: string;
+  let current = input;
+
+  do {
+    previous = current;
+    current = current.replace(PATH_TRAVERSAL_RE, '');
+  } while (current !== previous);
+
+  return current;
+}
+
 // ── Core sanitise logic ───────────────────────────────────────────────────────
 
 export function sanitiseValue(value: unknown, path: string, mutated: string[]): unknown {
@@ -50,9 +62,12 @@ export function sanitiseValue(value: unknown, path: string, mutated: string[]): 
       if (sqlCleaned !== out) { mutated.push(path); out = sqlCleaned; }
     }
 
-    if (cfg.stripPathTraversal && PATH_TRAVERSAL_RE.test(out)) {
-      mutated.push(path);
-      out = out.replace(PATH_TRAVERSAL_RE, '');
+    if (cfg.stripPathTraversal) {
+      const pathCleaned = stripPathTraversalSequences(out);
+      if (pathCleaned !== out) {
+        mutated.push(path);
+        out = pathCleaned;
+      }
     }
 
     if (out.length > cfg.maxStringLength) {

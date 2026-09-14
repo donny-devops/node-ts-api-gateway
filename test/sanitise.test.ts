@@ -28,6 +28,13 @@ describe('sanitiseValue', () => {
     expect(mutated).toContain('path');
   });
 
+  it('repeats path traversal stripping until no traversal remains', () => {
+    const mutated: string[] = [];
+    const result = sanitiseValue('....//etc/passwd', 'path', mutated) as string;
+    expect(result).not.toContain('../');
+    expect(mutated).toContain('path');
+  });
+
   it('truncates strings exceeding maxStringLength', () => {
     const mutated: string[] = [];
     const longStr = 'a'.repeat(20_000);
