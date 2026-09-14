@@ -1,12 +1,43 @@
-# Node TS API Gateway
+# 🛡️ Node TypeScript API Gateway
 
-[![CI](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/ci.yml)
-[![Security Hygiene](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/security-hygiene.yml/badge.svg)](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/security-hygiene.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/donny-devops/node-ts-api-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/donny-devops/node-ts-api-gateway/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/donny-devops/node-ts-api-gateway?style=flat-square)](https://codecov.io/gh/donny-devops/node-ts-api-gateway)
+[![Release](https://img.shields.io/github/v/release/donny-devops/node-ts-api-gateway?style=flat-square)](https://github.com/donny-devops/node-ts-api-gateway/releases)
+[![License](https://img.shields.io/github/license/donny-devops/node-ts-api-gateway?style=flat-square)](LICENSE)
 
+> Production-grade API Gateway built with TypeScript, Node.js, Redis sliding-window rate limiting, JWT authentication, and resilient circuit breakers.
 
-A TypeScript-based Node.js API gateway designed to centralize routing, middleware, authentication, and service-to-service communication for distributed applications.
+---
+
+## 🏛️ Architecture
+
+```mermaid
+flowchart TD
+    Client[Client Requests] --> Gateway[TypeScript Gateway Ingress]
+    Gateway --> Auth[JWT & RBAC Verification]
+    Gateway <--> Redis[(Redis Sliding-Window Rate Limiter)]
+    Gateway --> CB[Circuit Breaker / Proxy Engine]
+    CB --> MicroserviceA[User Service :3001]
+    CB --> MicroserviceB[Billing Service :3002]
+```
+
+---
+
+## ⚡ Quickstart
+
+```bash
+# 1. Clone
+git clone https://github.com/donny-devops/node-ts-api-gateway.git && cd node-ts-api-gateway
+
+# 2. Launch Gateway & Upstream Mock Services
+docker compose up -d
+
+# 3. Test API & Documentation
+curl http://localhost:8080/health
+# Swagger UI available at http://localhost:8080/docs
+```
+
+---
 
 ## Overview
 
