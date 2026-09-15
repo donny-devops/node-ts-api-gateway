@@ -46,5 +46,10 @@
     "vitest": "^2.0.3",
     "@vitest/coverage-v8": "^2.0.3",
     "eslint": "^9.7.0"
+  },
+  "overrides": {
+    "fastify": "$fastify",
+    "@fastify/http-proxy": "$@fastify/http-proxy",
+    "@fastify/jwt": "$@fastify/jwt"
   }
 }
