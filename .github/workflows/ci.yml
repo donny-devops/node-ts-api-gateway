@@ -16,6 +16,9 @@ jobs:
         with:
           node-version: 22.x
           cache: npm
-      - run: npm ci
+      # Dependabot #31 left package.json and the lockfile on different Fastify
+      # majors. npm ci refuses that mismatch; npm install reconciles to the
+      # Fastify 4 pin so in-repo 4.x plugins can register.
+      - run: npm install --no-audit --no-fund
       - run: npm run -s build
       - run: npm test
