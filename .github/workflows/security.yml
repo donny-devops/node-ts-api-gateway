@@ -1,0 +1,16 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  security:
+    uses: donny-devops/.github/.github/workflows/security-scan.yml@main
+    with:
+      enable-gitleaks: true
+      enable-trufflehog: true
+      enable-dependency-review: true
