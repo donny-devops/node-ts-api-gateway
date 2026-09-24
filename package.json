@@ -44,7 +44,7 @@
     "tsx": "^4.16.2",
     "typescript": "^5.5.3",
     "vitest": "^5.0.0",
-    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/coverage-v8": "^5.0.1",
     "eslint": "^9.7.0"
   }
 }
