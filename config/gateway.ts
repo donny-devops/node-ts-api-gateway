@@ -9,9 +9,11 @@ export const config = {
 
   // ── Upstream services routed through the gateway ──────────────────────────
   upstreams: JSON.parse(process.env.UPSTREAMS ?? JSON.stringify([
-    { prefix: '/api/users',    target: 'http://user-service:8080'    },
-    { prefix: '/api/products', target: 'http://product-service:8080' },
-    { prefix: '/api/orders',   target: 'http://order-service:8080'   },
+    { prefix: '/api/users',         target: 'http://user-service:8080'         },
+    { prefix: '/api/products',      target: 'http://product-service:8080'      },
+    { prefix: '/api/orders',        target: 'http://order-service:8080'        },
+    { prefix: '/api/payments',      target: 'http://payment-service:8080'      },
+    { prefix: '/api/notifications', target: 'http://notification-service:8080' },
   ])),
 
   // ── JWT ───────────────────────────────────────────────────────────────────
@@ -19,7 +21,7 @@ export const config = {
     secret:            process.env.JWT_SECRET ?? 'change-me-in-production',
     issuer:            process.env.JWT_ISSUER  ?? 'api-gateway',
     expiresIn:         process.env.JWT_EXPIRES ?? '1h',
-    publicPaths:       (process.env.JWT_PUBLIC_PATHS ?? '/health,/metrics,/ready').split(',').map(s => s.trim()),
+    publicPaths:       (process.env.JWT_PUBLIC_PATHS ?? '/health,/metrics,/ready,/gateway/status').split(',').map(s => s.trim()),
   },
 
   // ── Rate limiting (per-client, sliding window via Redis) ─────────────────
@@ -32,7 +34,10 @@ export const config = {
       max:             parseInt(process.env.RATE_LIMIT_AUTH_MAX    ?? '10',   10),
       timeWindowMs:    parseInt(process.env.RATE_LIMIT_AUTH_WINDOW ?? '60000', 10),
     },
-    perRoute: JSON.parse(process.env.RATE_LIMIT_PER_ROUTE ?? '{}'),
+    perRoute: JSON.parse(process.env.RATE_LIMIT_PER_ROUTE ?? JSON.stringify({
+      '/api/payments': { max: 30, timeWindowMs: 60000 },
+      '/api/notifications': { max: 60, timeWindowMs: 60000 },
+    })),
   },
 
   // ── DDoS / flood protection ───────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
+import fp from 'fastify-plugin';
 import { config } from '../../config/gateway.js';
 
 function isPublicPath(url: string): boolean {
@@ -27,4 +28,4 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
   });
 };
 
-export default authPlugin;
+export default fp(authPlugin, { name: 'auth', fastify: '4.x' });

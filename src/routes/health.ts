@@ -7,6 +7,7 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { Redis } from 'ioredis';
+import { config } from '../../config/gateway.js';
 
 export async function registerHealthRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.get('/health', async (_req, reply) => {
@@ -30,6 +31,28 @@ export async function registerHealthRoutes(fastify: FastifyInstance): Promise<vo
       status,
       checks: {
         redis: redisOk ? 'ok' : 'unreachable',
+      },
+    });
+  });
+
+  fastify.get('/gateway/status', async (_req, reply) => {
+    return reply.send({
+      status: 'online',
+      version: '1.0.0',
+      uptime: process.uptime(),
+      upstreams: config.upstreams.map((u: { prefix: string; target: string }) => ({
+        prefix: u.prefix,
+        target: u.target,
+      })),
+      rateLimits: {
+        global: config.rateLimit.global,
+        perRoute: config.rateLimit.perRoute,
+      },
+      features: {
+        ddosProtection: true,
+        inputSanitisation: true,
+        jwtAuth: true,
+        metrics: config.metrics.enabled,
       },
     });
   });

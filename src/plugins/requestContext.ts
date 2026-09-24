@@ -31,6 +31,11 @@ const requestContextPlugin: FastifyPluginAsync = async (fastify) => {
     // Attach transactionId to every pino log line from this request.
     request.log = request.log.child({ transactionId: request.transactionId });
   });
+
+  fastify.addHook('onSend', async (request, reply) => {
+    reply.header('x-request-id', request.id);
+    reply.header('x-transaction-id', request.transactionId);
+  });
 };
 
 export default fp(requestContextPlugin, { name: 'request-context', fastify: '4.x' });

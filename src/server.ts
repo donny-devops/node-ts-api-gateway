@@ -37,7 +37,7 @@ import { registerHealthRoutes } from './routes/health.js';
 
 let redis: Redis | null = null;
 
-if (config.redis.host) {
+if (config.redis.host && process.env.NODE_ENV !== 'test') {
   redis = new Redis({
     host:       config.redis.host,
     port:       config.redis.port,
@@ -46,7 +46,9 @@ if (config.redis.host) {
     keyPrefix:  config.redis.keyPrefix,
     lazyConnect: true,
     enableReadyCheck: true,
-    maxRetriesPerRequest: 3,
+    maxRetriesPerRequest: 1,
+    connectTimeout: 2000,
+    retryStrategy: (times) => (times > 2 ? null : Math.min(times * 100, 1000)),
   });
 
   redis.on('error', (err) => {

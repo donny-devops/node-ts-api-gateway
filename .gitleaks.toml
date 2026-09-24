@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[whitelist]
+description = "Ignore example tokens and mock keys"
+paths = [
+  '''test/.*''',
+  '''\.env\.example'''
+]
