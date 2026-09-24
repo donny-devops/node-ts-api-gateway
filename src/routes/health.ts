@@ -8,6 +8,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { Redis } from 'ioredis';
 import { config } from '../../config/gateway.js';
+import { CircuitBreakerRegistry } from '../services/circuitBreaker.js';
 
 export async function registerHealthRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.get('/health', async (_req, reply) => {
@@ -48,11 +49,13 @@ export async function registerHealthRoutes(fastify: FastifyInstance): Promise<vo
         global: config.rateLimit.global,
         perRoute: config.rateLimit.perRoute,
       },
+      circuitBreakers: CircuitBreakerRegistry.getAllStats(),
       features: {
         ddosProtection: true,
         inputSanitisation: true,
         jwtAuth: true,
         metrics: config.metrics.enabled,
+        circuitBreakers: true,
       },
     });
   });

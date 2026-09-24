@@ -1,5 +1,3 @@
-import type { FastifyRequest } from 'fastify';
-
 export interface TransactionRecord {
   transactionId: string;
   timestamp:     string;

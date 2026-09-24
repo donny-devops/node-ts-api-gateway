@@ -19,7 +19,7 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
 
     try {
       await request.jwtVerify();
-    } catch (err) {
+    } catch {
       return reply.status(401).send({
         error: 'Unauthorized',
         message: 'A valid Bearer token is required.',

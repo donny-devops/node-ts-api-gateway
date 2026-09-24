@@ -21,7 +21,7 @@ export const config = {
     secret:            process.env.JWT_SECRET ?? 'change-me-in-production',
     issuer:            process.env.JWT_ISSUER  ?? 'api-gateway',
     expiresIn:         process.env.JWT_EXPIRES ?? '1h',
-    publicPaths:       (process.env.JWT_PUBLIC_PATHS ?? '/health,/metrics,/ready,/gateway/status').split(',').map(s => s.trim()),
+    publicPaths:       (process.env.JWT_PUBLIC_PATHS ?? '/health,/metrics,/ready,/gateway/status,/docs,/docs/*').split(',').map(s => s.trim()),
   },
 
   // ── Rate limiting (per-client, sliding window via Redis) ─────────────────

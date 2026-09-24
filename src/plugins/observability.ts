@@ -13,6 +13,7 @@ import type { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 import { metrics, register } from '../services/metrics.js';
 import { logTransaction } from '../services/transactionLogger.js';
+import { CircuitBreakerRegistry } from '../services/circuitBreaker.js';
 import { config } from '../../config/gateway.js';
 import type { TransactionRecord } from '../types/index.js';
 
@@ -40,6 +41,15 @@ const observabilityPlugin: FastifyPluginAsync = async (fastify) => {
     const statusCode  = reply.statusCode;
     const upstream    = request.upstream ?? 'none';
     const method      = request.method;
+
+    if (upstream && upstream !== 'none') {
+      const breaker = CircuitBreakerRegistry.getBreaker(upstream);
+      if (statusCode >= 500) {
+        breaker.recordFailure();
+      } else {
+        breaker.recordSuccess();
+      }
+    }
 
     const labels = { method, route, status_code: String(statusCode), upstream };
 

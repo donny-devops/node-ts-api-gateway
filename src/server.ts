@@ -22,6 +22,8 @@ import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
 import jwt from '@fastify/jwt';
 import formbody from '@fastify/formbody';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 import { Redis } from 'ioredis';
 
 import { config } from '../config/gateway.js';
@@ -92,8 +94,10 @@ await app.register(requestContextPlugin);
 await app.register(helmet, {
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'none'"],
-      scriptSrc:  ["'none'"],
+      defaultSrc: ["'self'"],
+      scriptSrc:  ["'self'", "'unsafe-inline'"],
+      styleSrc:   ["'self'", "'unsafe-inline'"],
+      imgSrc:     ["'self'", 'data:'],
       objectSrc:  ["'none'"],
     },
   },
@@ -160,6 +164,34 @@ await app.register(authPlugin);
 
 // 10. Observability (metrics + transaction logging)
 await app.register(observabilityPlugin);
+
+// 11. OpenAPI & Swagger UI
+await app.register(swagger, {
+  openapi: {
+    info: {
+      title: 'Node TypeScript API Gateway',
+      description: 'Production-grade API Gateway with security hardening, DDoS protection, rate limiting, and observability',
+      version: '1.0.0',
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+  },
+});
+
+await app.register(swaggerUi, {
+  routePrefix: '/docs',
+  uiConfig: {
+    docExpansion: 'list',
+    deepLinking: false,
+  },
+});
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 
