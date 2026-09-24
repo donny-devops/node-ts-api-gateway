@@ -1,10 +1,12 @@
-# ── Build stage ───────────────────────────────────────────────────────────────
+# ── Build stage ───────────────────────────────────────────────
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --ignore-scripts
+# npm ci requires lockfile sync; Dependabot left Fastify 5 in the lockfile while
+# plugins still declare 4.x. npm install honors the Fastify 4 pin.
+RUN npm install --ignore-scripts
 
 COPY tsconfig.json ./
 COPY src ./src
@@ -12,7 +14,7 @@ COPY config ./config
 
 RUN npm run build
 
-# ── Production stage ──────────────────────────────────────────────────────────
+# ── Production stage ──────────────────────────────────────────
 FROM node:20-alpine AS production
 
 LABEL org.opencontainers.image.title="node-ts-api-gateway"
@@ -23,7 +25,7 @@ RUN addgroup -g 1001 gateway && adduser -u 1001 -G gateway -s /bin/sh -D gateway
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+RUN npm install --omit=dev --ignore-scripts && npm cache clean --force
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/config ./config
